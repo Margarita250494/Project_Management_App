@@ -24,12 +24,13 @@ import { SidebarLink } from "./SidebarLink";
 import { useAppDispatch, useAppSelector } from "@/app/redux";
 import { setIsSidebarCollapsed } from "@/state";
 import { animationList, getSidebarStyle } from "./style";
-
-
+import { useGetProjectsQuery } from "@/state/api";
 
 export const Sidebar = () => {
   const [showProjects, setShowProjects] = useState(true);
   const [showPriority, setShowPriority] = useState(true);
+
+  const { data: projects } = useGetProjectsQuery();
 
   const dispatch = useAppDispatch();
   const isSidebarCollapsed = useAppSelector(
@@ -41,7 +42,7 @@ export const Sidebar = () => {
     <aside aria-label="Sidebar" className={sidebarStyle}>
       <div className="flex h-full w-full flex-col justify-start">
         {/* TOP LOGO */}
-        <div className="z-50 flex min-h-[3.313rem] w-64 items-center justify-between bg-white px-6 dark:bg-black">
+        <div className="z-50 flex min-h-[3.313rem] w-64 items-center justify-between bg-white px-6  py-8 dark:bg-black">
           <p className="text-xl font-bold text-gray-800 dark:text-white">
             MARGOLIST
           </p>
@@ -126,17 +127,23 @@ export const Sidebar = () => {
         {/* List Projects (Would go inside a <ul> if content existed) */}
 
         <AnimatePresence>
-        {showProjects && (
-            <motion.ul 
-                id="projects-list" 
-                role="list"
-                {...animationList(showProjects)}
-                className="overflow-hidden">
-
+          {showProjects && (
+            <motion.ul
+              id="projects-list"
+              role="list"
+              {...animationList(showProjects)}
+            >
+              {projects?.map((project) => (
+                <SidebarLink
+                  key={project.id}
+                  icon={Briefcase}
+                  label={project.name}
+                  href={`/projects/${project.id}`}
+                />
+              ))}
             </motion.ul>
-        )}
+          )}
         </AnimatePresence>
-        
 
         {/* Priority Links */}
         <button
@@ -166,7 +173,6 @@ export const Sidebar = () => {
               id="priority-list"
               role="list"
               {...animationList(showPriority)}
-              className="overflow-hidden"
             >
               <SidebarLink
                 icon={AlertCircle}

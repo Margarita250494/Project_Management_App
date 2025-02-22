@@ -16,7 +16,7 @@ export const Navbar = () => {
       <nav
         role="navigation"
         aria-label="support navigation"
-        className="flex items-center justify-between bg-white px-4 py-3 dark:bg-black"
+        className="flex items-center justify-between border-b border-gray-200  dark:border-gray-700 bg-white px-4 py-3 dark:bg-black"
       >
         {/*Search bar */}
         <form 
