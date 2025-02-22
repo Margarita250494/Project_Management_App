@@ -2,13 +2,14 @@ import { Task } from "@/state/types";
 import { format } from "date-fns";
 import Image from "next/image";
 import { PriorityTag } from "../priotity/PriorityTag";
-
+import { statusColors } from "@/app/projects/tableView/tableColumns";
 
 type Props = {
   task: Task;
 };
 
 export const TaskCard = ({ task }: Props) => {
+  
   return (
     <div className="mb-3 flex flex-col gap-3 rounded bg-white p-4 shadow dark:bg-dark-secondary dark:text-white">
       {task.attachments && task.attachments.length > 0 && (
@@ -37,30 +38,37 @@ export const TaskCard = ({ task }: Props) => {
         <strong>Description:</strong>{" "}
         {task.description || "No description provided"}
       </p>
-      <p className="mb-0">
-        <strong>Status:</strong> {task.status}
+      <p className="mb-0 items-center gap-2">
+        <strong>Status:</strong>{" "}
+        {task.status && (
+          <span
+          className={`rounded-full px-2 py-1 font-semibold text-sm ${statusColors[task.status] || "bg-gray-100 text-gray-700"}`}
+        >
+          {task.status}
+        </span>
+        )}
       </p>
-      <p className="mb-0 flex items-center gap-2" >
+      <p className="mb-0 flex items-center gap-2">
         <strong>Priority:</strong>
         {task.priority && <PriorityTag priority={task.priority} />}
       </p>
-      <div className="mb-0 flex items-center gap-2">
+      <p className="mb-0 flex items-center gap-2">
         <strong>Tags:</strong>
         {task.tags ? (
           task.tags.split(",").map((tag, index) => (
-            <p
+            <span
               key={index}
-              className="rounded-full bg-blue-100 px-2 py-1 text-sm dark:text-gray-700"
+              className="rounded-full font-semibold bg-blue-100 px-2 py-1 text-sm dark:text-gray-700"
             >
               {tag.trim()}
-            </p>
+            </span>
           ))
         ) : (
-          <p className="rounded-full bg-gray-200 px-2 py-1 text-sm dark:text-gray-700">
+          <span className="rounded-full font-semibold bg-gray-200 px-2 py-1 text-sm dark:text-gray-700">
             No tags
-          </p>
+          </span>
         )}
-      </div>
+      </p>
       <p className="mb-0">
         <strong>Start Date:</strong>{" "}
         {task.startDate ? format(new Date(task.startDate), "P") : "Not set"}

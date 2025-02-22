@@ -99,7 +99,7 @@ export const Sidebar = () => {
             <SidebarLink icon={Search} label="Search" href="/search" />
             <SidebarLink icon={Settings} label="Settings" href="/settings" />
             <SidebarLink icon={UserRound} label="Users" href="/users" />
-            <SidebarLink icon={UsersRound} label="Team" href="/team" />
+            <SidebarLink icon={UsersRound} label="Teams" href="/teams" />
           </ul>
         </nav>
         {/* Projects Links */}

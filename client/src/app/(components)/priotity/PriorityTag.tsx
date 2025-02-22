@@ -10,8 +10,10 @@ export const PriorityTag = ({ priority }: { priority: TaskType["priority"] }) =>
             ? "bg-yellow-200 text-yellow-700"
             : priority === "Medium"
               ? "bg-green-200 text-green-700"
-              : priority === "Low"
+              : priority === "Backlog"
                 ? "bg-blue-200 text-blue-700"
+                : priority === "Low"
+                ? "bg-gray-300 text-gray-700"
                 : "bg-gray-200 text-gray-700"
       }`}
     >

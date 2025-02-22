@@ -12,7 +12,7 @@ type ModalNewTaskProps = {
   id?: string | null;
 };
 
-export const ModalNewTask = ({ isOpen, onClose, id }: ModalNewTaskProps) => {
+export const ModalNewTask = ({ isOpen, onClose, id = null }: ModalNewTaskProps) => {
   const [createTask, { isLoading }] = useCreateTaskMutation();
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -26,7 +26,7 @@ export const ModalNewTask = ({ isOpen, onClose, id }: ModalNewTaskProps) => {
   const [projectId, setProjectId] = useState("");
 
   const handleSubmit = async () => {
-    if (!title || !authorUserId) return;
+    if (!title || !authorUserId || !(id !== null || projectId)) return;
 
     const formattedStartDate = formatISO(new Date(startDate), {
       representation: "complete",
@@ -50,7 +50,7 @@ export const ModalNewTask = ({ isOpen, onClose, id }: ModalNewTaskProps) => {
   };
 
   const isFormValid = () => {
-    return title && authorUserId;
+    return title && authorUserId && !(id !== null || projectId);
   };
 
   const selectStyles =

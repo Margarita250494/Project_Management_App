@@ -4,9 +4,9 @@ import { useAppSelector } from "@/app/redux";
 import { useGetProjectsQuery} from "@/state/api";
 import { useMemo, useState } from "react";
 import { DisplayOption, Gantt, ViewMode } from "gantt-task-react"
-import { motion } from "framer-motion";
 import "gantt-task-react/dist/index.css"
 import { Header } from "../(components)/header";
+import { LoadingError } from "../(components)/loadingError/LoadingError";
 
 
 type TaskTypeItems = "task" | "milestone" | "project";
@@ -31,18 +31,9 @@ const Timeline = () => {
             isDisabled:false
         })) || []
     )
-  }, [projects])
-  if (isLoading)
-    return (
-      <motion.span
-        className="text-sm font-semibold text-gray-500"
-        animate={{ opacity: [0.3, 1, 0.3] }}
-        transition={{ duration: 1.5, repeat: Infinity }}
-      >
-        Loading...
-      </motion.span>
-    );
-  if (isError || !projects) return <div>An error occured while fetching projects</div>;
+  }, [projects]);
+
+  <LoadingError isLoading={isLoading} isError={isError || !projects} errorMessage="An error occured while fetching projects"/>
 
   const handleViewModeChange = (
     event:React.ChangeEvent<HTMLSelectElement>

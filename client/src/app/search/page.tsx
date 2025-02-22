@@ -4,10 +4,10 @@ import { useSearchQuery } from "@/state/api";
 import { useEffect, useState } from "react";
 import { debounce } from "lodash";
 import { Header } from "../(components)/header";
-import { motion } from "framer-motion";
 import { TaskCard } from "../(components)/taskCard/TaskCard";
 import { ProjectCard } from "../(components)/projectCard/ProjectCard";
 import { UserCard } from "../(components)/userCard/UserCard";
+import { LoadingError } from "../(components)/loadingError/LoadingError";
 
 const Search = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -44,30 +44,9 @@ const Search = () => {
         />
       </div>
       <div className="pt-5 flex gap-5">
-        {isLoading && (
-          <motion.span
-            className="text-sm font-semibold text-gray-500"
-            animate={{ opacity: [0.3, 1, 0.3] }}
-            transition={{ duration: 1.5, repeat: Infinity }}
-          >
-            Loading...
-          </motion.span>
-        )}
-        {isError && (
-          <motion.p
-            className="mt-2 text-sm font-semibold text-red-600"
-            initial={{ opacity: 0, y: -5 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -5 }}
-            transition={{ duration: 0.3 }}
-            whileHover={{
-              x: [0, -3, 3, -3, 3, 0],
-              transition: { duration: 0.4 },
-            }} 
-          >
-            ❌ Error occurred while fetching search results.
-          </motion.p>
-        )}
+
+        <LoadingError isLoading={isLoading} isError={isError} errorMessage="Error occurred while fetching search results."/>
+  
         {!isLoading && !isError && searchResults && (
             <div>
                 {searchResults.tasks && searchResults.tasks?.length > 0 && (
